@@ -147,6 +147,7 @@ class DynamicArray:
             holder_array.set_at_index(i, DynamicArray.get_at_index(self, ind))
             da = holder_array
 
+
     def append(self, value: object) -> None:
         """
         TODO: Write this implementation

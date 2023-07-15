@@ -156,7 +156,6 @@ class DynamicArray:
         else:
             self.set_at_index(self.length() + 1, value)
 
-
     def insert_at_index(self, index: int, value: object) -> None:
         """
         TODO: Write this implementation

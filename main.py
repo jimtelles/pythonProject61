@@ -143,7 +143,6 @@ class DynamicArray:
                 holder_array[ind] = self._data[ind]
             self._data = holder_array
 
-
     def append(self, value: object) -> None:
         """
         TODO: Write this implementation

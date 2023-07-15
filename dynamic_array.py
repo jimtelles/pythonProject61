@@ -160,7 +160,7 @@ class DynamicArray:
         """
         TODO: Write this implementation
         """
-        if self.length() + 1 == self.get_capacity():
+        if self.length() + 1 > self.get_capacity():
             doubler_integer = self.get_capacity() * 2
             self.resize(doubler_integer)
 

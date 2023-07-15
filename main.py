@@ -135,30 +135,27 @@ class DynamicArray:
         """
         Internal method used to increase the size of the static array inside the dynamic array.
         """
-        array_length = self.length()
-        print(array_length)
-        # if new_capacity < 0:
-        #     return
-        # else:
-        holder_array = StaticArray(new_capacity)
-        holder_array._capacity = new_capacity
-        print(holder_array)
-        for ind in range(array_length):
-            holder_array.set_at_index(i, DynamicArray.get_at_index(self, ind))
-            da = holder_array
+        if new_capacity < 0 or new_capacity < self.length():
+            return
+        else:
+            self._capacity = new_capacity
+            holder_array = StaticArray(self._capacity)
+            self._size = new_capacity
+            for ind in range(self.get_capacity()):
+                holder_array[ind] = self._data[ind]
+            self._data = holder_array
 
 
     def append(self, value: object) -> None:
         """
         TODO: Write this implementation
         """
-        # if self.length() == self.get_capacity():
-        #     doubler_integer = self.get_capacity() * 2
-        #     self.resize(doubler_integer)
-        #     self.set_at_index(self.length() + 1, value)
-        # else:
-        #     self.set_at_index(self.length() + 1, value)
-        pass
+        if self.length() == self.get_capacity():
+            self.resize(self.get_capacity() * 2)
+            self.set_at_index(self.length() + 1, value)
+        else:
+            self.set_at_index(self.length() + 1, value)
+
 
     def insert_at_index(self, index: int, value: object) -> None:
         """
@@ -256,215 +253,215 @@ if __name__ == "__main__":
     print(da.length())
     print(da.get_capacity())
 
-    print("\n# insert_at_index - example 1")
-    da = DynamicArray([100])
-    print(da)
-    da.insert_at_index(0, 200)
-    da.insert_at_index(0, 300)
-    da.insert_at_index(0, 400)
-    print(da)
-    da.insert_at_index(3, 500)
-    print(da)
-    da.insert_at_index(1, 600)
-    print(da)
-
-    print("\n# insert_at_index example 2")
-    da = DynamicArray()
-    try:
-        da.insert_at_index(-1, 100)
-    except Exception as e:
-        print("Exception raised:", type(e))
-    da.insert_at_index(0, 200)
-    try:
-        da.insert_at_index(2, 300)
-    except Exception as e:
-        print("Exception raised:", type(e))
-    print(da)
-
-    print("\n# insert at index example 3")
-    da = DynamicArray()
-    for i in range(1, 10):
-        index, value = i - 4, i * 10
-        try:
-            da.insert_at_index(index, value)
-        except Exception as e:
-            print("Cannot insert value", value, "at index", index)
-    print(da)
-
-    print("\n# remove_at_index - example 1")
-    da = DynamicArray([10, 20, 30, 40, 50, 60, 70, 80])
-    print(da)
-    da.remove_at_index(0)
-    print(da)
-    da.remove_at_index(6)
-    print(da)
-    da.remove_at_index(2)
-    print(da)
-
-    print("\n# remove_at_index - example 2")
-    da = DynamicArray([1024])
-    print(da)
-    for i in range(17):
-        da.insert_at_index(i, i)
-    print(da.length(), da.get_capacity())
-    for i in range(16, -1, -1):
-        da.remove_at_index(0)
-    print(da)
-
-    print("\n# remove_at_index - example 3")
-    da = DynamicArray()
-    print(da.length(), da.get_capacity())
-    [da.append(1) for i in range(100)]  # step 1 - add 100 elements
-    print(da.length(), da.get_capacity())
-    [da.remove_at_index(0) for i in range(68)]  # step 2 - remove 68 elements
-    print(da.length(), da.get_capacity())
-    da.remove_at_index(0)  # step 3 - remove 1 element
-    print(da.length(), da.get_capacity())
-    da.remove_at_index(0)  # step 4 - remove 1 element
-    print(da.length(), da.get_capacity())
-    [da.remove_at_index(0) for i in range(14)]  # step 5 - remove 14 elements
-    print(da.length(), da.get_capacity())
-    da.remove_at_index(0)  # step 6 - remove 1 element
-    print(da.length(), da.get_capacity())
-    da.remove_at_index(0)  # step 7 - remove 1 element
-    print(da.length(), da.get_capacity())
-
-    for i in range(14):
-        print("Before remove_at_index(): ", da.length(), da.get_capacity(), end="")
-        da.remove_at_index(0)
-        print(" After remove_at_index(): ", da.length(), da.get_capacity())
-
-    print("\n# remove at index - example 4")
-    da = DynamicArray([1, 2, 3, 4, 5])
-    print(da)
-    for _ in range(5):
-        da.remove_at_index(0)
-        print(da)
-
-    print("\n# slice example 1")
-    da = DynamicArray([1, 2, 3, 4, 5, 6, 7, 8, 9])
-    da_slice = da.slice(1, 3)
-    print(da, da_slice, sep="\n")
-    da_slice.remove_at_index(0)
-    print(da, da_slice, sep="\n")
-
-    print("\n# slice example 2")
-    da = DynamicArray([10, 11, 12, 13, 14, 15, 16])
-    print("SOURCE:", da)
-    slices = [(0, 7), (-1, 7), (0, 8), (2, 3), (5, 0), (5, 3), (6, 1), (6, -1)]
-    for i, cnt in slices:
-        print("Slice", i, "/", cnt, end="")
-        try:
-            print(" --- OK: ", da.slice(i, cnt))
-        except:
-            print(" --- exception occurred.")
-
-    print("\n# merge example 1")
-    da = DynamicArray([1, 2, 3, 4, 5])
-    da2 = DynamicArray([10, 11, 12, 13])
-    print(da)
-    da.merge(da2)
-    print(da)
-
-    print("\n# merge example 2")
-    da = DynamicArray([1, 2, 3])
-    da2 = DynamicArray()
-    da3 = DynamicArray()
-    da.merge(da2)
-    print(da)
-    da2.merge(da3)
-    print(da2)
-    da3.merge(da)
-    print(da3)
-
-    print("\n# map example 1")
-    da = DynamicArray([1, 5, 10, 15, 20, 25])
-    print(da)
-    print(da.map(lambda x: x ** 2))
-
-    print("\n# map example 2")
-
-
-    def double(value):
-        return value * 2
-
-
-    def square(value):
-        return value ** 2
-
-
-    def cube(value):
-        return value ** 3
-
-
-    def plus_one(value):
-        return value + 1
-
-
-    da = DynamicArray([plus_one, double, square, cube])
-    for value in [1, 10, 20]:
-        print(da.map(lambda x: x(value)))
-
-    print("\n# filter example 1")
-
-
-    def filter_a(e):
-        return e > 10
-
-
-    da = DynamicArray([1, 5, 10, 15, 20, 25])
-    print(da)
-    result = da.filter(filter_a)
-    print(result)
-    print(da.filter(lambda x: (10 <= x <= 20)))
-
-    print("\n# filter example 2")
-
-
-    def is_long_word(word, length):
-        return len(word) > length
-
-
-    da = DynamicArray("This is a sentence with some long words".split())
-    print(da)
-    for length in [3, 4, 7]:
-        print(da.filter(lambda word: is_long_word(word, length)))
-
-    print("\n# reduce example 1")
-    values = [100, 5, 10, 15, 20, 25]
-    da = DynamicArray(values)
-    print(da)
-    print(da.reduce(lambda x, y: (x // 5 + y ** 2)))
-    print(da.reduce(lambda x, y: (x + y ** 2), -1))
-
-    print("\n# reduce example 2")
-    da = DynamicArray([100])
-    print(da.reduce(lambda x, y: x + y ** 2))
-    print(da.reduce(lambda x, y: x + y ** 2, -1))
-    da.remove_at_index(0)
-    print(da.reduce(lambda x, y: x + y ** 2))
-    print(da.reduce(lambda x, y: x + y ** 2, -1))
-
-    print("\n# find_mode - example 1")
-    test_cases = (
-        [1, 1, 2, 3, 3, 4],
-        [1, 2, 3, 4, 5],
-        ["Apple", "Banana", "Banana", "Carrot", "Carrot",
-         "Date", "Date", "Date", "Eggplant", "Eggplant", "Eggplant",
-         "Fig", "Fig", "Grape"]
-    )
-
-    for case in test_cases:
-        da = DynamicArray(case)
-        mode, frequency = find_mode(da)
-        print(f"{da}\nMode: {mode}, Frequency: {frequency}\n")
-
-    case = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
-    da = DynamicArray()
-    for x in range(len(case)):
-        da.append(case[x])
-        mode, frequency = find_mode(da)
-        print(f"{da}\nMode: {mode}, Frequency: {frequency}")
-
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+#     print("\n# insert_at_index - example 1")
+#     da = DynamicArray([100])
+#     print(da)
+#     da.insert_at_index(0, 200)
+#     da.insert_at_index(0, 300)
+#     da.insert_at_index(0, 400)
+#     print(da)
+#     da.insert_at_index(3, 500)
+#     print(da)
+#     da.insert_at_index(1, 600)
+#     print(da)
+#
+#     print("\n# insert_at_index example 2")
+#     da = DynamicArray()
+#     try:
+#         da.insert_at_index(-1, 100)
+#     except Exception as e:
+#         print("Exception raised:", type(e))
+#     da.insert_at_index(0, 200)
+#     try:
+#         da.insert_at_index(2, 300)
+#     except Exception as e:
+#         print("Exception raised:", type(e))
+#     print(da)
+#
+#     print("\n# insert at index example 3")
+#     da = DynamicArray()
+#     for i in range(1, 10):
+#         index, value = i - 4, i * 10
+#         try:
+#             da.insert_at_index(index, value)
+#         except Exception as e:
+#             print("Cannot insert value", value, "at index", index)
+#     print(da)
+#
+#     print("\n# remove_at_index - example 1")
+#     da = DynamicArray([10, 20, 30, 40, 50, 60, 70, 80])
+#     print(da)
+#     da.remove_at_index(0)
+#     print(da)
+#     da.remove_at_index(6)
+#     print(da)
+#     da.remove_at_index(2)
+#     print(da)
+#
+#     print("\n# remove_at_index - example 2")
+#     da = DynamicArray([1024])
+#     print(da)
+#     for i in range(17):
+#         da.insert_at_index(i, i)
+#     print(da.length(), da.get_capacity())
+#     for i in range(16, -1, -1):
+#         da.remove_at_index(0)
+#     print(da)
+#
+#     print("\n# remove_at_index - example 3")
+#     da = DynamicArray()
+#     print(da.length(), da.get_capacity())
+#     [da.append(1) for i in range(100)]  # step 1 - add 100 elements
+#     print(da.length(), da.get_capacity())
+#     [da.remove_at_index(0) for i in range(68)]  # step 2 - remove 68 elements
+#     print(da.length(), da.get_capacity())
+#     da.remove_at_index(0)  # step 3 - remove 1 element
+#     print(da.length(), da.get_capacity())
+#     da.remove_at_index(0)  # step 4 - remove 1 element
+#     print(da.length(), da.get_capacity())
+#     [da.remove_at_index(0) for i in range(14)]  # step 5 - remove 14 elements
+#     print(da.length(), da.get_capacity())
+#     da.remove_at_index(0)  # step 6 - remove 1 element
+#     print(da.length(), da.get_capacity())
+#     da.remove_at_index(0)  # step 7 - remove 1 element
+#     print(da.length(), da.get_capacity())
+#
+#     for i in range(14):
+#         print("Before remove_at_index(): ", da.length(), da.get_capacity(), end="")
+#         da.remove_at_index(0)
+#         print(" After remove_at_index(): ", da.length(), da.get_capacity())
+#
+#     print("\n# remove at index - example 4")
+#     da = DynamicArray([1, 2, 3, 4, 5])
+#     print(da)
+#     for _ in range(5):
+#         da.remove_at_index(0)
+#         print(da)
+#
+#     print("\n# slice example 1")
+#     da = DynamicArray([1, 2, 3, 4, 5, 6, 7, 8, 9])
+#     da_slice = da.slice(1, 3)
+#     print(da, da_slice, sep="\n")
+#     da_slice.remove_at_index(0)
+#     print(da, da_slice, sep="\n")
+#
+#     print("\n# slice example 2")
+#     da = DynamicArray([10, 11, 12, 13, 14, 15, 16])
+#     print("SOURCE:", da)
+#     slices = [(0, 7), (-1, 7), (0, 8), (2, 3), (5, 0), (5, 3), (6, 1), (6, -1)]
+#     for i, cnt in slices:
+#         print("Slice", i, "/", cnt, end="")
+#         try:
+#             print(" --- OK: ", da.slice(i, cnt))
+#         except:
+#             print(" --- exception occurred.")
+#
+#     print("\n# merge example 1")
+#     da = DynamicArray([1, 2, 3, 4, 5])
+#     da2 = DynamicArray([10, 11, 12, 13])
+#     print(da)
+#     da.merge(da2)
+#     print(da)
+#
+#     print("\n# merge example 2")
+#     da = DynamicArray([1, 2, 3])
+#     da2 = DynamicArray()
+#     da3 = DynamicArray()
+#     da.merge(da2)
+#     print(da)
+#     da2.merge(da3)
+#     print(da2)
+#     da3.merge(da)
+#     print(da3)
+#
+#     print("\n# map example 1")
+#     da = DynamicArray([1, 5, 10, 15, 20, 25])
+#     print(da)
+#     print(da.map(lambda x: x ** 2))
+#
+#     print("\n# map example 2")
+#
+#
+#     def double(value):
+#         return value * 2
+#
+#
+#     def square(value):
+#         return value ** 2
+#
+#
+#     def cube(value):
+#         return value ** 3
+#
+#
+#     def plus_one(value):
+#         return value + 1
+#
+#
+#     da = DynamicArray([plus_one, double, square, cube])
+#     for value in [1, 10, 20]:
+#         print(da.map(lambda x: x(value)))
+#
+#     print("\n# filter example 1")
+#
+#
+#     def filter_a(e):
+#         return e > 10
+#
+#
+#     da = DynamicArray([1, 5, 10, 15, 20, 25])
+#     print(da)
+#     result = da.filter(filter_a)
+#     print(result)
+#     print(da.filter(lambda x: (10 <= x <= 20)))
+#
+#     print("\n# filter example 2")
+#
+#
+#     def is_long_word(word, length):
+#         return len(word) > length
+#
+#
+#     da = DynamicArray("This is a sentence with some long words".split())
+#     print(da)
+#     for length in [3, 4, 7]:
+#         print(da.filter(lambda word: is_long_word(word, length)))
+#
+#     print("\n# reduce example 1")
+#     values = [100, 5, 10, 15, 20, 25]
+#     da = DynamicArray(values)
+#     print(da)
+#     print(da.reduce(lambda x, y: (x // 5 + y ** 2)))
+#     print(da.reduce(lambda x, y: (x + y ** 2), -1))
+#
+#     print("\n# reduce example 2")
+#     da = DynamicArray([100])
+#     print(da.reduce(lambda x, y: x + y ** 2))
+#     print(da.reduce(lambda x, y: x + y ** 2, -1))
+#     da.remove_at_index(0)
+#     print(da.reduce(lambda x, y: x + y ** 2))
+#     print(da.reduce(lambda x, y: x + y ** 2, -1))
+#
+#     print("\n# find_mode - example 1")
+#     test_cases = (
+#         [1, 1, 2, 3, 3, 4],
+#         [1, 2, 3, 4, 5],
+#         ["Apple", "Banana", "Banana", "Carrot", "Carrot",
+#          "Date", "Date", "Date", "Eggplant", "Eggplant", "Eggplant",
+#          "Fig", "Fig", "Grape"]
+#     )
+#
+#     for case in test_cases:
+#         da = DynamicArray(case)
+#         mode, frequency = find_mode(da)
+#         print(f"{da}\nMode: {mode}, Frequency: {frequency}\n")
+#
+#     case = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
+#     da = DynamicArray()
+#     for x in range(len(case)):
+#         da.append(case[x])
+#         mode, frequency = find_mode(da)
+#         print(f"{da}\nMode: {mode}, Frequency: {frequency}")
+#
+#
+# # See PyCharm help at https://www.jetbrains.com/help/pycharm/

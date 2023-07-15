@@ -165,7 +165,6 @@ class DynamicArray:
             self.resize(doubler_integer)
 
         for ind in range(self.length() - 1, index - 1, -1):
-            print(ind)
             self._data[ind + 1] = self._data[ind]
         self._data[index] = value
         self._size += 1

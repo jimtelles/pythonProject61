@@ -135,19 +135,20 @@ class DynamicArray:
         """
         Internal method used to increase the size of the static array inside the dynamic array.
         """
-        if new_capacity < 0 or new_capacity < self.length():
-            return
+        if new_capacity <= 0 or new_capacity < self.length():
+                return
         else:
             holder_array = StaticArray(new_capacity)
-            self._size = new_capacity
-            for ind in range(self.get_capacity()):
+            for ind in range(self.length()):
                 holder_array[ind] = self._data[ind]
             self._data = holder_array
+            self._capacity = new_capacity
 
     def append(self, value: object) -> None:
         """
         TODO: Write this implementation
         """
+        print(da)
         if self.length() == self.get_capacity():
             doubler_integer = self.get_capacity() * 2
             self.resize(doubler_integer)

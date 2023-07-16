@@ -199,7 +199,8 @@ class DynamicArray:
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """
-        TODO: Write this implementation
+        Method takes 'slices' out of an existing array, and creates a new array to hold the sliced elements. new array
+        size and capacity are determined by input size.
         """
         if start_index < 0 or start_index > self.length() - 1 or self.length() - start_index < size  :
             raise DynamicArrayException
@@ -224,7 +225,15 @@ class DynamicArray:
         """
         TODO: Write this implementation
         """
-        pass
+        counter = 0
+        if second_da.length() + self.length() > self.get_capacity():
+            doubler_integer = self.get_capacity() * 2
+            self.resize(doubler_integer)
+
+        while self._size < (second_da.length() + self.length()) and counter < second_da.length():
+            self._data[self._size + 1] = second_da[counter]
+            self._size += 1
+            counter = counter + 1
 
     def map(self, map_func) -> "DynamicArray":
         """
@@ -401,23 +410,23 @@ if __name__ == "__main__":
         except:
             print(" --- exception occurred.")
 
-    # print("\n# merge example 1")
-    # da = DynamicArray([1, 2, 3, 4, 5])
-    # da2 = DynamicArray([10, 11, 12, 13])
-    # print(da)
-    # da.merge(da2)
-    # print(da)
-    #
-    # print("\n# merge example 2")
-    # da = DynamicArray([1, 2, 3])
-    # da2 = DynamicArray()
-    # da3 = DynamicArray()
-    # da.merge(da2)
-    # print(da)
-    # da2.merge(da3)
-    # print(da2)
-    # da3.merge(da)
-    # print(da3)
+    print("\n# merge example 1")
+    da = DynamicArray([1, 2, 3, 4, 5])
+    da2 = DynamicArray([10, 11, 12, 13])
+    print(da)
+    da.merge(da2)
+    print(da)
+
+    print("\n# merge example 2")
+    da = DynamicArray([1, 2, 3])
+    da2 = DynamicArray()
+    da3 = DynamicArray()
+    da.merge(da2)
+    print(da)
+    da2.merge(da3)
+    print(da2)
+    da3.merge(da)
+    print(da3)
     #
     # print("\n# map example 1")
     # da = DynamicArray([1, 5, 10, 15, 20, 25])

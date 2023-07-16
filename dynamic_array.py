@@ -210,7 +210,7 @@ class DynamicArray:
             start_index = start_index + 1
         new_array = DynamicArray()
         new_array._size = size
-        new_array._capacity = size
+#        new_array._capacity = size
         new_array._data = new_static_array
         return new_array
 

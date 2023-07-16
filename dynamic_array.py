@@ -203,6 +203,9 @@ class DynamicArray:
         """
         if start_index < 0 or start_index > self.length() - 1 or self.length() - start_index < size  :
             raise DynamicArrayException
+        elif size == 0:
+            new_array = DynamicArray()
+            return new_array
 
         new_static_array = StaticArray(size)
         for ind in range(size):

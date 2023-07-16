@@ -231,7 +231,7 @@ class DynamicArray:
             self.resize(doubler_integer)
 
         while self._size < (second_da.length() + self.length()) and counter < second_da.length():
-            self._data[self._size + 1] = second_da[counter]
+            self._data[self._size] = second_da[counter]
             self._size += 1
             counter = counter + 1
 

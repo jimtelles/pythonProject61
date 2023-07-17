@@ -189,24 +189,30 @@ class DynamicArray:
                 self._data[ind] = self._data[ind + 1]
             self._size = self._size - 1
         elif self.length() < self.get_capacity() // 4:
-            for ind in range(index, self.length()):
-                self._data[ind] = self._data[ind]
+            self._capacity = self.length() * 2
+            for ind in range(index, self.length() - 1):
+                self._data[ind] = self._data[ind + 1]
                 self._size = self._size - 1
-            if self.length() <= 10:
-                self._capacity = 10
-            else:
+                print(self._size)
+            if self.length() < self.get_capacity() // 4:
                 self._capacity = self.length() * 2
-
-
-
-
+                if self._capacity < 10:
+                    self._capacity = 10
+        else:
+            for ind in range(index, self.length() - 1):
+                self._data[ind] = self._data[ind + 1]
+                self._size = self._size - 1
+            if self.length() < self.get_capacity() // 4:
+                self._capacity = self.length() * 2
+                if self._capacity < 10:
+                    self._capacity = 10
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """
         Method takes 'slices' out of an existing array, and creates a new array to hold the sliced elements. new array
         size and capacity are determined by input size.
         """
-        if start_index < 0 or start_index > self.length() - 1 or self.length() - start_index < size  :
+        if start_index < 0 or start_index > self.length() - 1 or self.length() - start_index < size:
             raise DynamicArrayException
         elif size == 0:
             new_array = DynamicArray()

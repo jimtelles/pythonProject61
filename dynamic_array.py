@@ -158,7 +158,10 @@ class DynamicArray:
 
     def insert_at_index(self, index: int, value: object) -> None:
         """
-        TODO: Write this implementation
+        Method takes in an index position and a value, inserts the value at that index position
+        in the array, and shifts the rest of the elements, from that point to the right, if the
+        addition of that value, makes size of the array, match the capacity, the resize method
+        is called and the array capacity is increased (doubled).
         """
         if index < 0 or index > self.length():
             raise DynamicArrayException
@@ -239,12 +242,12 @@ class DynamicArray:
         """
         TODO: Write this implementation
         """
-        new_static_array = StaticArray(self.length())
+        new_static_array = StaticArray(self.get_capacity())
         for ind in range(self.length()):
             new_static_array[ind] = map_func(self._data[ind])
         new_array = DynamicArray()
         new_array._size = self.length()
-        new_array._capacity = self.length()
+        new_array._capacity = self.get_capacity()
         new_array._data = new_static_array
         return new_array
 

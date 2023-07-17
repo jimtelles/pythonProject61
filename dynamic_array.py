@@ -223,7 +223,7 @@ class DynamicArray:
 
     def merge(self, second_da: "DynamicArray") -> None:
         """
-        TODO: Write this implementation
+        Method that takes 2 arrays and appends the second one to the first.
         """
         counter = 0
         if second_da.length() + self.length() > self.get_capacity():
@@ -239,7 +239,17 @@ class DynamicArray:
         """
         TODO: Write this implementation
         """
-        pass
+        new_static_array = StaticArray(self.length())
+        for ind in range(self.length()):
+            new_static_array[ind] = map_func(self._data[ind])
+        new_array = DynamicArray()
+        new_array._size = self.length()
+        new_array._capacity = self.length()
+        new_array._data = new_static_array
+        return new_array
+
+
+
 
     def filter(self, filter_func) -> "DynamicArray":
         """
@@ -427,35 +437,35 @@ if __name__ == "__main__":
     print(da2)
     da3.merge(da)
     print(da3)
-    #
-    # print("\n# map example 1")
-    # da = DynamicArray([1, 5, 10, 15, 20, 25])
-    # print(da)
-    # print(da.map(lambda x: x ** 2))
-    #
-    # print("\n# map example 2")
-    #
-    #
-    # def double(value):
-    #     return value * 2
-    #
-    #
-    # def square(value):
-    #     return value ** 2
-    #
-    #
-    # def cube(value):
-    #     return value ** 3
-    #
-    #
-    # def plus_one(value):
-    #     return value + 1
-    #
-    #
-    # da = DynamicArray([plus_one, double, square, cube])
-    # for value in [1, 10, 20]:
-    #     print(da.map(lambda x: x(value)))
-    #
+
+    print("\n# map example 1")
+    da = DynamicArray([1, 5, 10, 15, 20, 25])
+    print(da)
+    print(da.map(lambda x: x ** 2))
+
+    print("\n# map example 2")
+
+
+    def double(value):
+        return value * 2
+
+
+    def square(value):
+        return value ** 2
+
+
+    def cube(value):
+        return value ** 3
+
+
+    def plus_one(value):
+        return value + 1
+
+
+    da = DynamicArray([plus_one, double, square, cube])
+    for value in [1, 10, 20]:
+        print(da.map(lambda x: x(value)))
+
     # print("\n# filter example 1")
     #
     #

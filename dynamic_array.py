@@ -184,21 +184,22 @@ class DynamicArray:
         if index < 0 or index > self.length() - 1:
             raise DynamicArrayException
 
-        if self.length() < self.get_capacity() * .25 and self.get_capacity() >= 10:
-            holder_array = StaticArray(self.length() * 2)
-            for ind in range(self.length()):
-                holder_array[ind] = self._data[ind]
-            self._data = holder_array
-            self._capacity = self.length() * 2
-
-        elif index == self.length() - 1:
-            for ind in range(self.length() - 1):
-                self._data[ind] = self._data[ind]
-            self._size = self._size - 1
-        else:
+        if self.get_capacity() <= 10:
             for ind in range(index, self.length() - 1):
                 self._data[ind] = self._data[ind + 1]
             self._size = self._size - 1
+        elif self.length() < self.get_capacity() // 4:
+            for ind in range(index, self.length()):
+                self._data[ind] = self._data[ind]
+                self._size = self._size - 1
+            if self.length() <= 10:
+                self._capacity = 10
+            else:
+                self._capacity = self.length() * 2
+
+
+
+
 
     def slice(self, start_index: int, size: int) -> "DynamicArray":
         """
@@ -257,16 +258,28 @@ class DynamicArray:
         Method applies a function to an array, and returns the values designated by the
         function into a new array.
         """
-        new_static_array = StaticArray(self.get_capacity())
-        for ind in range(self.length()):
-            new_static_array[ind] = filter_func(self._data[ind])
+        i_holder = []
+        b_static_array = StaticArray(self.length())
         new_array = DynamicArray()
-        if new_array._size < self.get_capacity() and self.get_capacity() - new_array._size > self.get_capacity()//2:
-            while new_array.get_capacity() > 4:
-                new_array._capacity = self.get_capacity()//2
-        new_array._size = new_static_array.length()
-        new_array._data = new_static_array
-        return new_array
+        for ind_1 in range(self.length()):
+            b_static_array[ind_1] = filter_func(self._data[ind_1])
+        for ind_2 in range(b_static_array.length()):
+            if b_static_array[ind_2] is not True:
+                i_holder.append(ind_2)
+
+        new_array._data = self._data
+        # return new_array
+
+
+
+
+
+
+
+
+
+
+
 
     def reduce(self, reduce_func, initializer=None) -> object:
         """

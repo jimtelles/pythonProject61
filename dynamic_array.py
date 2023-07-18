@@ -193,15 +193,16 @@ class DynamicArray:
             for ind in range(index, self.length() - 1):
                 self._data[ind] = self._data[ind + 1]
                 self._size = self._size - 1
-                print(self._size)
             if self.length() < self.get_capacity() // 4:
                 self._capacity = self.length() * 2
                 if self._capacity < 10:
                     self._capacity = 10
         else:
-            for ind in range(index, self.length() - 1):
+            for ind in range(index, self.get_capacity() - 1):
+                # print(self.length())
+                # print(self._data)
                 self._data[ind] = self._data[ind + 1]
-                self._size = self._size - 1
+            self._size = self._size - 1
             if self.length() < self.get_capacity() // 4:
                 self._capacity = self.length() * 2
                 if self._capacity < 10:

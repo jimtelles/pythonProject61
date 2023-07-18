@@ -198,7 +198,7 @@ class DynamicArray:
                 if self._capacity < 10:
                     self._capacity = 10
         else:
-            for ind in range(index, self.length() - 1):
+            for ind in range(index, self.length()):
                 self._data[ind] = self._data[ind + 1]
             self._size = self._size - 1
             if self.length() < self.get_capacity() // 4:
@@ -265,26 +265,19 @@ class DynamicArray:
         """
         i_holder = []
         b_static_array = StaticArray(self.length())
-        new_array = DynamicArray()
         for ind_1 in range(self.length()):
             b_static_array[ind_1] = filter_func(self._data[ind_1])
         for ind_2 in range(b_static_array.length()):
             if b_static_array[ind_2] is not True:
                 i_holder.append(ind_2)
-
+        new_array = DynamicArray()
         new_array._data = self._data
-        # return new_array
+        new_array._size = self.length()
+        new_array._capacity = self.length()
+        for ind_3 in range(len(i_holder)):
+            new_array.remove_at_index(i_holder[ind_3])
 
-
-
-
-
-
-
-
-
-
-
+        return new_array
 
     def reduce(self, reduce_func, initializer=None) -> object:
         """
